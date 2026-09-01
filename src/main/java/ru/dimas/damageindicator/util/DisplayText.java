@@ -16,8 +16,7 @@ public final class DisplayText {
             Component targetName,
             double health,
             double maxHealth,
-            double damage,
-            Component criticalLabel,
+            Component damageText,
             int decimalPlaces
     ) {
         return MINI_MESSAGE.deserialize(
@@ -25,8 +24,8 @@ public final class DisplayText {
                 Placeholder.component("target", targetName),
                 Placeholder.unparsed("health", DamageMath.format(health, decimalPlaces)),
                 Placeholder.unparsed("max_health", DamageMath.format(maxHealth, decimalPlaces)),
-                Placeholder.unparsed("damage", DamageMath.format(damage, decimalPlaces)),
-                Placeholder.component("critical", criticalLabel)
+                Placeholder.component("damage", damageText),
+                Placeholder.component("critical", Component.empty())
         );
     }
 
@@ -35,9 +34,5 @@ public final class DisplayText {
                 template,
                 Placeholder.unparsed("amount", DamageMath.format(amount, decimalPlaces))
         );
-    }
-
-    public static Component miniMessage(String template) {
-        return MINI_MESSAGE.deserialize(template);
     }
 }

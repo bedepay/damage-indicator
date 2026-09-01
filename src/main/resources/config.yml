@@ -4,9 +4,11 @@ bossbar:
   enabled: true
   # Время показа после последнего удара. 20 тиков = 1 секунда.
   duration-ticks: 60
-  # Переменные: <target>, <health>, <max_health>, <damage>, <critical>.
-  title: "<gold><target></gold> <dark_gray>•</dark_gray> <red>Здоровье:</red> <white><health>/<max_health> ❤</white> <dark_gray>•</dark_gray> <yellow>Урон: -<damage></yellow> <critical>"
-  critical-label: "<bold><gradient:#ffed4a:#ff3b30>✦ КРИТ! ✦</gradient></bold>"
+  # Компактный формат: имя цели, здоровье и последний урон.
+  # Переменные заголовка: <target>, <health>, <max_health>, <damage>.
+  title: "<gold><target></gold> <dark_gray>•</dark_gray> <red><health>/<max_health> ❤</red> <dark_gray>•</dark_gray> <damage>"
+  damage-text: "<bold><gradient:#ffd166:#ff6b35>-<amount></gradient></bold>"
+  critical-damage-text: "<bold><gradient:#fff06a:#ff8a00:#ff1744>✦ -<amount> ✦</gradient></bold>"
 
 indicators:
   damage:

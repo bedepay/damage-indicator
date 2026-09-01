@@ -12,8 +12,10 @@ public record CombatDisplayConfig(
         IndicatorSettings indicators
 ) {
 
-    private static final String DEFAULT_BOSSBAR_TITLE = "<gold><target></gold> <dark_gray>•</dark_gray> <red>Здоровье:</red> <white><health>/<max_health> ❤</white> <dark_gray>•</dark_gray> <yellow>Урон: -<damage></yellow> <critical>";
-    private static final String DEFAULT_CRITICAL_LABEL = "<bold><gradient:#ffed4a:#ff3b30>✦ КРИТ! ✦</gradient></bold>";
+    private static final String LEGACY_BOSSBAR_TITLE = "<gold><target></gold> <dark_gray>•</dark_gray> <red>Здоровье:</red> <white><health>/<max_health> ❤</white> <dark_gray>•</dark_gray> <yellow>Урон: -<damage></yellow> <critical>";
+    private static final String DEFAULT_BOSSBAR_TITLE = "<gold><target></gold> <dark_gray>•</dark_gray> <red><health>/<max_health> ❤</red> <dark_gray>•</dark_gray> <damage>";
+    private static final String DEFAULT_BOSSBAR_DAMAGE_TEXT = "<bold><gradient:#ffd166:#ff6b35>-<amount></gradient></bold>";
+    private static final String DEFAULT_BOSSBAR_CRITICAL_DAMAGE_TEXT = "<bold><gradient:#fff06a:#ff8a00:#ff1744>✦ -<amount> ✦</gradient></bold>";
     private static final String DEFAULT_DAMAGE_TEXT = "<bold><gradient:#ff6b6b:#ff0000>-<amount> ❤</gradient></bold>";
     private static final String DEFAULT_CRITICAL_TEXT = "<bold><gradient:#fff06a:#ff8a00:#ff1744>✦ КРИТ -<amount> ✦</gradient></bold>";
     private static final String DEFAULT_HEALING_TEXT = "<bold><gradient:#7dff8a:#20d65a>+<amount> ❤</gradient></bold>";
@@ -21,16 +23,28 @@ public record CombatDisplayConfig(
     public static CombatDisplayConfig load(FileConfiguration config, Logger logger) {
         int decimalPlaces = boundedInt(config, logger, "decimal-places", 1, 0, 3);
 
-        String criticalLabel = validMiniMessage(
-                config.getString("bossbar.critical-label", DEFAULT_CRITICAL_LABEL),
-                DEFAULT_CRITICAL_LABEL,
-                "bossbar.critical-label",
+        String bossBarDamageText = validIndicatorTemplate(
+                config.getString("bossbar.damage-text", DEFAULT_BOSSBAR_DAMAGE_TEXT),
+                DEFAULT_BOSSBAR_DAMAGE_TEXT,
+                "bossbar.damage-text",
+                decimalPlaces,
                 logger
         );
+        String bossBarCriticalDamageText = validIndicatorTemplate(
+                config.getString("bossbar.critical-damage-text", DEFAULT_BOSSBAR_CRITICAL_DAMAGE_TEXT),
+                DEFAULT_BOSSBAR_CRITICAL_DAMAGE_TEXT,
+                "bossbar.critical-damage-text",
+                decimalPlaces,
+                logger
+        );
+        String configuredBossBarTitle = config.getString("bossbar.title", DEFAULT_BOSSBAR_TITLE);
+        if (LEGACY_BOSSBAR_TITLE.equals(configuredBossBarTitle)) {
+            configuredBossBarTitle = DEFAULT_BOSSBAR_TITLE;
+        }
         String bossBarTitle = validBossBarTemplate(
-                config.getString("bossbar.title", DEFAULT_BOSSBAR_TITLE),
+                configuredBossBarTitle,
                 DEFAULT_BOSSBAR_TITLE,
-                criticalLabel,
+                bossBarDamageText,
                 decimalPlaces,
                 logger
         );
@@ -39,7 +53,8 @@ public record CombatDisplayConfig(
                 config.getBoolean("bossbar.enabled", true),
                 boundedInt(config, logger, "bossbar.duration-ticks", 60, 1, 20 * 60),
                 bossBarTitle,
-                criticalLabel
+                bossBarDamageText,
+                bossBarCriticalDamageText
         );
 
         IndicatorSettings indicators = new IndicatorSettings(
@@ -65,25 +80,22 @@ public record CombatDisplayConfig(
         return new CombatDisplayConfig(decimalPlaces, bossBar, indicators);
     }
 
-    private static String validMiniMessage(String value, String fallback, String path, Logger logger) {
-        try {
-            DisplayText.miniMessage(value);
-            return value;
-        } catch (RuntimeException exception) {
-            logger.warning("Некорректный MiniMessage в " + path + ". Используется оформление по умолчанию: " + exception.getMessage());
-            return fallback;
-        }
-    }
-
     private static String validBossBarTemplate(
             String value,
             String fallback,
-            String criticalLabel,
+            String damageText,
             int decimalPlaces,
             Logger logger
     ) {
         try {
-            DisplayText.bossBar(value, Component.text("Цель"), 10.0, 20.0, 2.5, DisplayText.miniMessage(criticalLabel), decimalPlaces);
+            DisplayText.bossBar(
+                    value,
+                    Component.text("Цель"),
+                    10.0,
+                    20.0,
+                    DisplayText.indicator(damageText, 2.5, decimalPlaces),
+                    decimalPlaces
+            );
             return value;
         } catch (RuntimeException exception) {
             logger.warning("Некорректный MiniMessage в bossbar.title. Используется оформление по умолчанию: " + exception.getMessage());
@@ -125,7 +137,13 @@ public record CombatDisplayConfig(
         return value;
     }
 
-    public record BossBarSettings(boolean enabled, int durationTicks, String title, String criticalLabel) {
+    public record BossBarSettings(
+            boolean enabled,
+            int durationTicks,
+            String title,
+            String damageText,
+            String criticalDamageText
+    ) {
     }
 
     public record IndicatorSettings(

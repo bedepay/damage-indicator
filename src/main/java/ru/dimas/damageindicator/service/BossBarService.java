@@ -40,16 +40,14 @@ public final class BossBarService {
         }
 
         float progress = DamageMath.healthProgress(remainingHealth, maxHealth);
-        Component criticalLabel = critical
-                ? DisplayText.miniMessage(settings.criticalLabel())
-                : Component.empty();
+        String damageTemplate = critical ? settings.criticalDamageText() : settings.damageText();
+        Component damageText = DisplayText.indicator(damageTemplate, damage, config.decimalPlaces());
         Component title = DisplayText.bossBar(
                 settings.title(),
                 targetName(target),
                 remainingHealth,
                 maxHealth,
-                damage,
-                criticalLabel,
+                damageText,
                 config.decimalPlaces()
         );
 
