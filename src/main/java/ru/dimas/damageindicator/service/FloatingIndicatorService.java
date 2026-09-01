@@ -4,6 +4,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import ru.dimas.damageindicator.DamageIndicatorPlugin;
 import ru.dimas.damageindicator.config.CombatDisplayConfig;
@@ -76,6 +77,10 @@ public final class FloatingIndicatorService {
             entity.setGravity(false);
             entity.setSilent(true);
         });
+
+        if (target instanceof Player player) {
+            player.hideEntity(plugin, display);
+        }
 
         activeDisplays.put(display.getUniqueId(), display);
         AtomicInteger age = new AtomicInteger();
