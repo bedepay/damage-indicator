@@ -1,0 +1,30 @@
+# Форматирование поддерживает MiniMessage: https://docs.advntr.dev/minimessage/format.html
+
+bossbar:
+  enabled: true
+  # Время показа после последнего удара. 20 тиков = 1 секунда.
+  duration-ticks: 60
+  # Переменные: <target>, <health>, <max_health>, <damage>, <critical>.
+  title: "<gold><target></gold> <dark_gray>•</dark_gray> <red>Здоровье:</red> <white><health>/<max_health> ❤</white> <dark_gray>•</dark_gray> <yellow>Урон: -<damage></yellow> <critical>"
+  critical-label: "<bold><gradient:#ffed4a:#ff3b30>✦ КРИТ! ✦</gradient></bold>"
+
+indicators:
+  damage:
+    enabled: true
+    text: "<bold><gradient:#ff6b6b:#ff0000>-<amount> ❤</gradient></bold>"
+  critical:
+    enabled: true
+    text: "<bold><gradient:#fff06a:#ff8a00:#ff1744>✦ КРИТ -<amount> ✦</gradient></bold>"
+  healing:
+    enabled: true
+    text: "<bold><gradient:#7dff8a:#20d65a>+<amount> ❤</gradient></bold>"
+
+  # Общая анимация парящих цифр.
+  duration-ticks: 20
+  vertical-offset: 0.35
+  random-horizontal-offset: 0.35
+  rise-per-tick: 0.045
+  view-range: 1.0
+
+# Число знаков после запятой во всех значениях.
+decimal-places: 1

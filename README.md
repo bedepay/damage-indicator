@@ -1,129 +1,23 @@
-[![Spigot Downloads][spigot-downloads-shield]][spigot-url]
-[![bStats Servers][bstats-servers-shield]][bstats-url]
-[![Issues][issues-shield]][issues-url]
-[![GNU License][license-shield]][license-url]
-[![Discord][discord-shield]][discord-url]
+# DamageIndicator
 
-![Damage Indicator](https://imgur.com/9lCOZaz.png)
+Современный индикатор боя для **Paper 1.21.11**.
 
-<p align="center">
+Возможности:
 
-## A high performance packet-based damage indicator
+- красивые парящие цифры урона, лечения и критического урона;
+- bossbar для атакованного игрока или моба;
+- в bossbar видны имя цели, здоровье, последний урон и отметка `КРИТ!`;
+- цвет полосы меняется от зелёного к красному;
+- русские тексты и настройка оформления через MiniMessage;
+- только Paper API и Adventure — без NMS, базы данных и legacy-модулей.
 
-</p>
+## Сборка и установка
 
-DamageIndicator is an extensive and feature-rich healthbar manager for Minecraft servers.
-It provides a system to **display damage dealt** to enemies solely using **packets**,
-which means no actual armor stand entities will be spawned.
+1. Выполните `gradlew.bat build` на Windows или `./gradlew build` на Linux.
+2. Скопируйте `build/libs/DamageIndicator-2.0.0.jar` в папку `plugins` сервера Paper 1.21.11.
+3. Перезапустите сервер.
 
-DamageIndicator is also **completely server-side** so **no additional mods are required** by your players.
-The **high-performance** packet spawning and **flexible configuration** makes DamageIndicator extremely suitable for large PvP or Survival servers.
+## Команда
 
-
-
-
-<!-- Key Features -->
-![Key Features](https://imgur.com/5pw7FBU.png)
-
-- **Highly configurable**
-    - Modify damage indicator offset, speed and duration
-    - Edit all indicator colours to your liking
-        - Each damage range can be a different colour group
-        - The colour of every character in a colour group can be customised
-    - Support for bold, italics and rainbow mode
-    - Global toggle for heal indicators in addition to damage indicators
-
-- **No setup required**
-    - Default offset and colour values have been extensively tested on large servers
-    - Comes with 10 unique colour groups for all indicators to provide more variation
-    - Simply drag & drop the plugin to get started
-
-- **Cross-version compatibility**
-    - Supports _all_ Minecraft versions from 1.8.8–26.2
-    - Incompatible versions will fallback to invisible armor stands instead of breaking the plugin
-
-- **Per-player & per-world toggle support**
-    - Allow players to disable client-side indicator packets via a command
-        - Useful to preserve FPS on low-end setups and for experienced PvP players who do not need indicators
-    - Admins can completely disable indicators in specific worlds
-        - Useful for non-PvP worlds or in fast-paced gamemodes like NoHitDelay
-
-- **High-performance**
-    - DamageIndicator was built with performance in mind
-    - No performance issues on servers with up to 100+ players
-    - Perfect for large PvP or Survival servers
-
-- **100% packet-based**
-    - DamageIndicator uses purely packets to send indicators to players
-    - Hugely boosts performance as no armor stand entities are actually spawned
-    - No floating armor stands will remain in the world if your server crashes
-
-
-
-
-<!-- Plugin Showcase -->
-![Plugin Showcase](https://imgur.com/T8HeNXQ.png)
-
-<p align="center">
-
-![](https://imgur.com/cvJQEmi.gif) ![](https://imgur.com/b20ktC3.gif)
-![](https://imgur.com/CxEtL5i.gif) ![](https://imgur.com/YfnsIrO.gif)
-
-</p>
-
-
-
-
-<!-- Commands & Permissions -->
-![Commands & Permissions](https://imgur.com/hqxxKx8.png)
-
-> **/damageindicator help**  
-> [damageindicator.command.help]  
-> _Help command to show all possible arguments_
-
-> **/damageindicator toggle <on/off>**  
-> [damageindicator.command.toggle]  
-> _Toggle client-side damage indicators_
-
-> **/damageindicator reload**  
-> [damageindicator.command.reload]  
-> _Reload the plugin’s `config.yml` and `messages.yml` files_
-
-
-
-
-<!-- Statistics -->
-![Statistics](https://imgur.com/8ep0wfL.png)
-
-[![bStats Statistics](https://bstats.org/signatures/bukkit/Damage%20Indicator.svg)](https://bstats.org/plugin/bukkit/Damage%20Indicator/15403)
-
-
-
-
-<!-- Contributors -->
-![Contributors](https://imgur.com/1x5d7La.png)
-
-<p align="center">
-
-![Zenya4](https://imgur.com/er5gpPL.png)
-![Skaian](https://imgur.com/zXv4Smv.png)
-![Greylatte](https://imgur.com/bttUgkK.png)
-
-</p>
-
-- Developer up to 1.1.2 | Zenya4
-- Configs up to 1.1.2 & Beta Testing | Skaian
-- Videos & Editing | Greylatte
-
-
-[bstats-servers-svg]: https://bstats.org/signatures/bukkit/Damage%20Indicator.svg
-[bstats-servers-shield]: https://img.shields.io/bstats/servers/15403.svg?style=for-the-badge
-[bstats-url]: https://bstats.org/plugin/bukkit/Damage%20Indicator/15403
-[spigot-url]: https://www.spigotmc.org/resources/92423
-[issues-shield]: https://img.shields.io/github/issues/Insprill/damage-indicator.svg?style=for-the-badge
-[issues-url]: https://github.com/Insprill/damage-indicator/issues
-[license-shield]: https://img.shields.io/github/license/Insprill/damage-indicator.svg?style=for-the-badge
-[license-url]: https://github.com/Insprill/damage-indicator/blob/master/LICENSE
-[discord-shield]: https://img.shields.io/discord/626995215558901771?color=%235663F7&label=Discord&style=for-the-badge
-[discord-url]: https://discord.gg/vjQ3F2XDTc
-[spigot-downloads-shield]: https://img.shields.io/spiget/downloads/71608?style=for-the-badge
+- `/damageindicator reload` — перечитать `config.yml`.
+- Право `damageindicator.reload` по умолчанию доступно операторам.

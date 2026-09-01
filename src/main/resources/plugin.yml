@@ -1,0 +1,17 @@
+name: DamageIndicator
+main: ru.dimas.damageindicator.DamageIndicatorPlugin
+version: ${version}
+description: Русские индикаторы урона, лечения и здоровья для Paper 1.21.11
+api-version: '1.21.11'
+authors: [dimas]
+
+commands:
+  damageindicator:
+    description: Управление DamageIndicator
+    aliases: [di]
+    usage: /<command> reload
+
+permissions:
+  damageindicator.reload:
+    description: Разрешает перезагрузку конфигурации DamageIndicator
+    default: op
